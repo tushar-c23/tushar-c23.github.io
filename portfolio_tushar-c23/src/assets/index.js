@@ -29,6 +29,10 @@ import tesla from "./company/tesla.png";
 import carrent from "./carrent.png";
 import jobit from "./jobit.png";
 import tripguide from "./tripguide.png";
+import cold from "./cold.png";
+import dav from "./dav.png";
+import jnu from "./jnu.png";
+import jnu_placement from "./jnu_placement.png";
 
 export {
   logo,
@@ -59,4 +63,8 @@ export {
   carrent,
   jobit,
   tripguide,
+  cold,
+  dav,
+  jnu,
+  jnu_placement,
 };
