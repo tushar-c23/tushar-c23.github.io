@@ -27,6 +27,9 @@ import {
     jnu,
     cold,
     jnu_placement,
+    business,
+    portfolio,
+    yelpcamp,
   } from "../assets";
   
   export const navLinks = [
@@ -189,67 +192,73 @@ import {
   
   const projects = [
     {
-      name: "Car Rent",
+      name: "Business Landing Page",
+      description: "A responsive business landing page made with HTML CSS and Bootstrap.",
+      tags: [
+        {
+          name: "HTML",
+          color: "blue-text-gradient",
+        },
+        {
+          name: "CSS",
+          color: "green-text-gradient",
+        },
+        {
+          name: "Bootstrap-css",
+          color: "pink-text-gradient",
+        },
+      ],
+      image: business,
+      source_code_link: "https://github.com/tushar-c23/Business-Landing-Page",
+    },
+    {
+      name: "Portfolio Website",
       description:
-        "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+        "A responsive portfolio website made with React JS, Three JS, React-router and Tailwind CSS.",
       tags: [
         {
           name: "react",
           color: "blue-text-gradient",
         },
         {
-          name: "mongodb",
+          name: "react-router",
           color: "green-text-gradient",
         },
         {
-          name: "tailwind",
+          name: "ThreeJS",
           color: "pink-text-gradient",
         },
+        {
+          name: "TailwindCSS",
+          color: "red-text-gradient",
+        },
       ],
-      image: carrent,
-      source_code_link: "https://github.com/",
+      image: portfolio,
+      source_code_link: "https://github.com/tushar-c23/tushar-c23.github.io",
     },
     {
-      name: "Job IT",
-      description:
-        "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+      name: "YelpCamp",
+      description: "A responsive camp review web app with login and signup functionality which uses nodejs express and mongodb to store and fetch information.",
       tags: [
         {
-          name: "react",
-          color: "blue-text-gradient",
-        },
-        {
-          name: "restapi",
+          name: "Nodejs",
           color: "green-text-gradient",
         },
         {
-          name: "scss",
+          name: "Express",
+          color: "red-text-gradient",
+        },
+        {
+          name: "mongo",
           color: "pink-text-gradient",
         },
-      ],
-      image: jobit,
-      source_code_link: "https://github.com/",
-    },
-    {
-      name: "Trip Guide",
-      description:
-        "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
-      tags: [
         {
-          name: "nextjs",
+          name: "ejs",
           color: "blue-text-gradient",
         },
-        {
-          name: "supabase",
-          color: "green-text-gradient",
-        },
-        {
-          name: "css",
-          color: "pink-text-gradient",
-        },
       ],
-      image: tripguide,
-      source_code_link: "https://github.com/",
+      image: yelpcamp,
+      source_code_link: "https://github.com/tushar-c23/YelpCamp",
     },
   ];
   

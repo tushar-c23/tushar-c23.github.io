@@ -33,6 +33,9 @@ import cold from "./cold.png";
 import dav from "./dav.png";
 import jnu from "./jnu.png";
 import jnu_placement from "./jnu_placement.png";
+import business from "./business.png";
+import portfolio from "./portfolio.png";
+import yelpcamp from "./yelpcamp.png";
 
 export {
   logo,
@@ -67,4 +70,7 @@ export {
   dav,
   jnu,
   jnu_placement,
+  business,
+  portfolio,
+  yelpcamp,
 };
