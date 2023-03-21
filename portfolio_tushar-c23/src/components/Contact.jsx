@@ -6,6 +6,9 @@ import { EarthCanvas } from './canvas';
 import { SectionWrapper } from '../hoc';
 import { slideIn } from '../utils/motion';
 
+//template_gz4fjfw
+//service_uflkmwm
+//jtUBfhhOah089J3xd
 
 const Contact = () => {
   const formRef = useRef();
@@ -16,8 +19,40 @@ const Contact = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => { };
-  const handleSubmit = (e) => { };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setForm({ ...form, [name]: value })
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setLoading(true);
+    emailjs.send(
+      'service_uflkmwm',
+      'template_gz4fjfw',
+      {
+        from_name: form.name,
+        to_name: 'Tushar',
+        from_email: form.email,
+        to_email: 'tusharc.cse@gmail.com',
+        message: form.message,
+      }
+      , 'jtUBfhhOah089J3xd')
+      .then(() => {
+        setLoading(false);
+        alert("Thank You! I'll get back to you soon.");
+        setForm({
+          name: "",
+          email: "",
+          message: "",
+        })
+      }, (error) => {
+        setLoading(false);
+        console.log(error.text);
+        alert("Something went wrong. Please try again later.");
+      })
+  };
 
   return (
     <div className='xl:mt-12 xl:flex-row flex-col-reverse flex gap-10 overflow-hidden'>
@@ -47,7 +82,7 @@ const Contact = () => {
             <span className="text-white font-medium mb-4">Your Message</span>
             <textarea rows="7" name="message" value={form.message} onChange={handleChange} placeholder="What do you want to say?" className='bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outlined-none border-none font-medium' />
           </label>
-          
+
           <button
             type="submit"
             className='bg-tertiary py-3 px-8 outline-none w-fit text-white font-bold shadow-md shadow-primary rounded-xl'
