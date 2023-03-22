@@ -36,6 +36,12 @@ import jnu_placement from "./jnu_placement.png";
 import business from "./business.png";
 import portfolio from "./portfolio.png";
 import yelpcamp from "./yelpcamp.png";
+import python from "./python.png";
+import bootstrap from "./bootstrap-logo.svg";
+import expressJS from "./expressjs.png";
+import c from "./c.png";
+import cpp from "./cpp.png";
+import reactrouter from "./react-router.png";
 
 export {
   logo,
@@ -73,4 +79,10 @@ export {
   business,
   portfolio,
   yelpcamp,
+  python,
+  bootstrap,
+  expressJS,
+  c,
+  cpp,
+  reactrouter,
 };

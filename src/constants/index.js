@@ -30,6 +30,12 @@ import {
     business,
     portfolio,
     yelpcamp,
+    python,
+    bootstrap,
+    expressJS,
+    c,
+    cpp,
+    reactrouter,
   } from "../assets";
   
   export const navLinks = [
@@ -59,14 +65,14 @@ import {
   ];
   
   const technologies = [
-    {
-      name: "HTML 5",
-      icon: html,
-    },
-    {
-      name: "CSS 3",
-      icon: css,
-    },
+    // {
+    //   name: "HTML 5",
+    //   icon: html,
+    // },
+    // {
+    //   name: "CSS 3",
+    //   icon: css,
+    // },
     {
       name: "JavaScript",
       icon: javascript,
@@ -103,9 +109,29 @@ import {
     //   name: "docker",
     //   icon: docker,
     // },
+    {
+      name: "python",
+      icon: python,
+    },
     // {
-    //   name: "python"
-    //   icon: python
+    //   name: "bootstrap",
+    //   icon: bootstrap,
+    // },
+    // {
+    //   name: "expressJS",
+    //   icon: expressJS,
+    // },
+    {
+      name: "C",
+      icon: c,
+    },
+    {
+      name: "C++",
+      icon: cpp,
+    },
+    // {
+    //   name: "react-router",
+    //   icon: reactrouter,
     // }
   ];
 
