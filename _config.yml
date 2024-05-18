@@ -35,9 +35,6 @@ theme: minima
 plugins:
   - jekyll-feed
 
-minima:
-  skin: dark
-
 author:
   name: Tushar Choudhary
   email: "tusharc.cse@gmail.com"
