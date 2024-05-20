@@ -24,7 +24,7 @@ jnumail: tushar66_soe@jnu.ac.in
 description: >- # this means to ignore newlines until "baseurl:"
   Occasional blogs about my experiences and learnings alongside professionally relevant details about me.
 baseurl:  # the subpath of your site, e.g. /blog
-url: "https://tushar-c23.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+url: https://tushar-c23.github.io/ # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: 
 github_username:  tushar-c23
 linkedin_username: tushar-c23
