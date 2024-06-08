@@ -4,7 +4,6 @@
 
 layout: home
 ---
-## Introduction
 Hi! This is Tushar Choudhary, currently a computer science engineering junior at School of Engineering, Jawaharlal Nehru University, New Delhi.
 
 I am Full Stack Developer but i primarily focus on Backend development.
