@@ -1,0 +1,26 @@
+---
+layout: post
+title:  "Week 1 with GSoC"
+date:   2024-06-03 16:10:07 +0530
+categories: gsoc
+published: true
+---
+The first week was fairly informative. Following is a list of my learnings this week:
+- Learned quite a lot about how the Cytoscape apps work and how they are written.
+- Running cytoscape in debug mode and listening to the debug port from intellij by setting up debug configurations.
+- OSGi model and how cytoscape uses it to structure the software.
+- How to write OSGi configurations.
+- How to add the instance of the cytoscape app in the menu bar of cytoscape.
+- How nodes and networks are modeled in cytoscape.
+- Following things related to Nodes in networks
+    - Creating nodes
+    - Naming the nodes
+    - Creating edges
+    - Node table entries
+- Following things related to cytoscape apps
+    - Tasks
+    - Task factories
+    - Network views
+    - Network managers
+
+Further i plan to take a look at how cytoscape exports networks in the form of cytoscape.js json file.
