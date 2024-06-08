@@ -3,6 +3,7 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
+google_analytics: G-4X2YPLZQCE
 ---
 Hi! This is Tushar Choudhary, currently a computer science engineering senior at School of Engineering, Jawaharlal Nehru University, New Delhi.
 
