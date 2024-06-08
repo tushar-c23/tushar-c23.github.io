@@ -4,3 +4,9 @@
 
 layout: home
 ---
+## Introduction
+Hi! This is Tushar Choudhary, currently a computer science engineering junior at School of Engineering, Jawaharlal Nehru University, New Delhi.
+
+I am Full Stack Developer but i primarily focus on Backend development.
+
+I write occassional blogs over here which will be listed below. I'll primarily be writing about my experience with GSoC '24 currently and hopefully add on with some more blogs about technologies or experiences that i find interesting enough to write about.
