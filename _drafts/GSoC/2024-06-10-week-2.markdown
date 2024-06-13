@@ -1,0 +1,59 @@
+---
+layout: post
+title:  "Week 2 with GSoC"
+date:   2024-06-10 16:10:07 +0530
+categories: gsoc
+---
+The second week included a lot more application of the information gathered in the first week. I also experimented with the pre populated layouts on Cytoscape desktop application.
+
+### TODOs
+- [x] Figure out how to add multiple entries in the application menu from a single plugin.
+- [x] Figure out the Cytoscape.js JSON export handler in the cytoscape desktop application.
+- [x] Find out a way to trigger the export from the plugin.
+- [ ] Figure out how to populate the layout settings menu with the new layouts from cytoscape.js.
+
+### Experiments with code
+- Tried to populate a submenu in the layout menu with multiple entries which will ultimately be used to populate the layouts from the cytoscape.js layouts. To do this i had to register multiple services from a single application.
+```java
+Properties createNetworkViewTaskFactoryProps = new Properties();
+createNetworkViewTaskFactoryProps.setProperty("preferredMenu","Layout.CytoJS Layouts");
+createNetworkViewTaskFactoryProps.setProperty("title","Layout 1");
+registerService(bc,createNetworkViewTaskFactory,TaskFactory.class, createNetworkViewTaskFactoryProps);
+
+Properties createNetworkViewTaskFactoryProps1 = new Properties();
+createNetworkViewTaskFactoryProps1.setProperty("preferredMenu","Layout.CytoJS Layouts");
+createNetworkViewTaskFactoryProps1.setProperty("title","Layout 2");
+registerService(bc,createNetworkViewTaskFactory,TaskFactory.class, createNetworkViewTaskFactoryProps1);
+```
+
+### Learnings
+- The Cytoscape desktop application uses a plugin named [JSON](https://github.com/cytoscape/json) which is included as a core plugin. Thanks to my mentor[^1] for pointing me to the right direction.
+- Upon investigating the code and a little help from Cytoscape app developers' google group[^2] i was able to figure out how to use the CytoscapeJS JSON export service in my plugin.
+
+## Milestones
+### Automation of JSON export
+Figured out how to trigger the JSON export from the plugin.
+- Create a service reference to the CyNetworkViewWriterFactory which will be passed to the Task factory.
+```java
+String filter = "("+ID+"=cytoscapejsNetworkWriterFactory)";
+CyNetworkViewWriterFactory writeCyJs = serviceRegistrar.getService(CyNetworkViewWriterFactory.class, filter);
+```
+- Following code snippet triggers the service to generate the JSON file from the task.
+```java
+OutputStream outputStream = new FileOutputStream("cynetwork.json");
+// Open your output stream
+CyWriter jsonWriter = this.writeCyJs.createWriter(outputStream, myView);
+jsonWriter.run(monitor);
+```
+- The following dependency needs to be added to the pom.xml file.
+```xml
+<dependency>
+    <groupId>org.cytoscape</groupId>
+    <artifactId>io-api</artifactId>
+    <version>${cytoscape.api.version}</version>
+    <scope>provided</scope>
+</dependency>
+```
+
+[^1]: [Hasan Balci](https://github.com/hasanbalci)
+[^2]: [Cytoscape app developers' google group](https://groups.google.com/g/cytoscape-app-dev/c/tUEISVXLfGE)
