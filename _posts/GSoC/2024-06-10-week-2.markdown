@@ -14,6 +14,7 @@ The second week included a lot more application of the information gathered in t
 
 ### Experiments with code
 - Tried to populate a submenu in the layout menu with multiple entries which will ultimately be used to populate the layouts from the cytoscape.js layouts. To do this i had to register multiple services from a single application.
+
 ```java
 Properties createNetworkViewTaskFactoryProps = new Properties();
 createNetworkViewTaskFactoryProps.setProperty("preferredMenu","Layout.CytoJS Layouts");
@@ -46,6 +47,7 @@ CyWriter jsonWriter = this.writeCyJs.createWriter(outputStream, myView);
 jsonWriter.run(monitor);
 ```
 - The following dependency needs to be added to the pom.xml file.
+
 ```xml
 <dependency>
     <groupId>org.cytoscape</groupId>
@@ -54,6 +56,8 @@ jsonWriter.run(monitor);
     <scope>provided</scope>
 </dependency>
 ```
+
+---
 
 [^1]: [Hasan Balci](https://github.com/hasanbalci)
 [^2]: [Cytoscape app developers' google group](https://groups.google.com/g/cytoscape-app-dev/c/tUEISVXLfGE)
