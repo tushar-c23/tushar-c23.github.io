@@ -1,0 +1,179 @@
+---
+layout: post
+title:  "Week 3 with GSoC"
+date:   2024-06-17 16:10:07 +0530
+categories: gsoc
+---
+The third week included a lot of exploration and trying out multiple approaches to successfully connect cytoscape plugin to the SyBLaRS API.
+
+### TODOs
+- [x] Run SyBLaRS API locally.
+- [x] Figure out how to make HTTP API requests from cytoscape plugin.
+- [x] Figure out how to make custom HTTP API requests to SyBLaRS with static reuqest body.
+- [x] Figure out how to make custom HTTP API requests to SyBLaRS with dynamic request body fetched from the current network in cytoscape.
+
+### Experiments with code
+- Tried to use okHTTP to make HTTP requests from the plugin. Cytoscape fails to detect the plugin when okHTTP was used to make HTTP requests. Below is the code used.
+
+```java
+//API Call
+String url = "http://localhost:3000/json?image=false";
+String dataToSend = outputString.toString();
+String optionsString = "{\"layoutOptions\":{\"name\":\"fcose\",\"randomize\":true,\"padding\":30,\"nodeDimensionsIncludeLabels\":true,\"uniformNodeDimensions\":false,\"packComponents\":true,\"nodeRepulsion\":4500,\"idealEdgeLength\":50,\"edgeElasticity\":0.45,\"nestingFactor\":0.1,\"numIter\":2500,\"tile\":true,\"tilingPaddingVertical\":10,\"tilingPaddingHorizontal\":10,\"gravity\":0.25,\"gravityRange\":3.8,\"gravityCompound\":1,\"gravityRangeCompound\":1.5,\"initialEnergyOnIncremental\":0.3},\"imageOptions\":{\"format\":\"png\",\"background\":\"transparent\",\"width\":1280,\"height\":720,\"color\":\"bluescale\"}}";
+// Define the request body
+String payload = dataToSend + optionsString;
+System.out.println("$$Payload: " + payload);
+
+// Create the request body object
+RequestBody body = RequestBody.create(
+        payload, MediaType.parse("text/plain")
+);
+
+// Create the request object
+Request request = new Request.Builder()
+        .url("http://localhost:3000/json?image=false")
+        .post(body)
+        .addHeader("Accept", "application/json")
+        .addHeader("Content-Type", "text/plain")
+        .build();
+
+// Create the OkHttp client
+OkHttpClient client = new OkHttpClient();
+
+// Execute the request
+client.newCall(request).enqueue(new Callback() {
+    @Override
+    public void onFailure(Call call, IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        if (!response.isSuccessful()) {
+            throw new IOException("Unexpected code " + response);
+        }
+
+        // Handle the response
+        String responseBody = response.body().string();
+        System.out.println(responseBody);
+    }
+});
+```
+
+```xml
+<dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>4.9.1</version> <!-- Use the latest version -->
+        <scope>provided</scope>
+    </dependency>
+```
+
+- Tried to use the Java.net package to make HTTP requests from the plugin. Cytoscape was able to detect the plugin when Java.net package was used to make HTTP requests. Below is the code used.
+
+```java
+String url = "http://localhost:3000/json?image=false";
+String dataToSend = outputString.toString();
+String optionsString = "{\"layoutOptions\":{\"name\":\"fcose\",\"randomize\":true,\"padding\":30,\"nodeDimensionsIncludeLabels\":true,\"uniformNodeDimensions\":false,\"packComponents\":true,\"nodeRepulsion\":4500,\"idealEdgeLength\":50,\"edgeElasticity\":0.45,\"nestingFactor\":0.1,\"numIter\":2500,\"tile\":true,\"tilingPaddingVertical\":10,\"tilingPaddingHorizontal\":10,\"gravity\":0.25,\"gravityRange\":3.8,\"gravityCompound\":1,\"gravityRangeCompound\":1.5,\"initialEnergyOnIncremental\":0.3},\"imageOptions\":{\"format\":\"png\",\"background\":\"transparent\",\"width\":1280,\"height\":720,\"color\":\"bluescale\"}}";
+
+String payload = "[" + dataToSend + "," + optionsString + "]";
+
+System.out.println("Payload: " + payload);
+
+try {
+    URL obj = new URI(url).toURL();
+    HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+    connection.setRequestMethod("POST");
+    connection.setRequestProperty("Content-Type", "text/plain");
+    connection.setDoOutput(true);
+    try (DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
+        os.writeBytes(payload);
+        os.flush();
+    }
+    int responseCode = connection.getResponseCode();
+    if(responseCode == HttpURLConnection.HTTP_OK) {
+        StringBuilder response = new StringBuilder();
+        try (
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))
+                ) {
+            String line;
+            while((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+        }
+        System.out.println("Response: " + response.toString());
+    }
+    else {
+        System.out.println("POST request failed: " + responseCode);
+    }
+    connection.disconnect();
+}
+catch (Exception e) {
+    System.out.println("Exception: " + e.getMessage());
+    e.printStackTrace();
+}
+```
+
+### Learnings
+- The Cytoscape desktop application cannot detect plugins with okHTTP as dependency which may have some caveat that i may be overlooking.
+- SybLarS expects a JSON array as the request body which contains the data and the options for the layout when posting data to "/json" endpoint.
+
+## Milestones
+### Successful HTTP requests to SyBLaRS API
+Figured out how to trigger the API request to SyBLaRS from the plugin.
+```java
+OutputStream outputString = new OutputStream() {
+    private StringBuilder string = new StringBuilder();
+
+    @Override
+    public void write(int b) throws IOException {
+        this.string.append((char) b );
+    }
+
+    public String toString() {
+        return this.string.toString();
+    }
+};
+// Open your output stream
+CyWriter jsonWriter = this.writeCyJs.createWriter(outputString, myView);
+jsonWriter.run(monitor);
+
+//API Call
+String url = "http://localhost:3000/json?image=false";
+String dataToSend = outputString.toString();
+String optionsString = "{\"layoutOptions\":{\"name\":\"fcose\",\"randomize\":true,\"padding\":30,\"nodeDimensionsIncludeLabels\":true,\"uniformNodeDimensions\":false,\"packComponents\":true,\"nodeRepulsion\":4500,\"idealEdgeLength\":50,\"edgeElasticity\":0.45,\"nestingFactor\":0.1,\"numIter\":2500,\"tile\":true,\"tilingPaddingVertical\":10,\"tilingPaddingHorizontal\":10,\"gravity\":0.25,\"gravityRange\":3.8,\"gravityCompound\":1,\"gravityRangeCompound\":1.5,\"initialEnergyOnIncremental\":0.3},\"imageOptions\":{\"format\":\"png\",\"background\":\"transparent\",\"width\":1280,\"height\":720,\"color\":\"bluescale\"}}";
+String payload = "[" + dataToSend + "," + optionsString + "]";
+
+try {
+    URL obj = new URI(url).toURL();
+    HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
+    connection.setRequestMethod("POST");
+    connection.setRequestProperty("Content-Type", "text/plain");
+    connection.setDoOutput(true);
+    try (DataOutputStream os = new DataOutputStream(connection.getOutputStream())) {
+        os.writeBytes(payload);
+        os.flush();
+    }
+    int responseCode = connection.getResponseCode();
+    if(responseCode == HttpURLConnection.HTTP_OK) {
+        StringBuilder response = new StringBuilder();
+        try (
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))
+                ) {
+            String line;
+            while((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+        }
+        System.out.println("Response: " + response.toString());
+    }
+    else {
+        System.out.println("POST request failed: " + responseCode);
+    }
+    connection.disconnect();
+}
+catch (Exception e) {
+    System.out.println("Exception: " + e.getMessage());
+    e.printStackTrace();
+}
+```
