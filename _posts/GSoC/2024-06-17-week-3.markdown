@@ -62,11 +62,11 @@ client.newCall(request).enqueue(new Callback() {
 
 ```xml
 <dependency>
-        <groupId>com.squareup.okhttp3</groupId>
-        <artifactId>okhttp</artifactId>
-        <version>4.9.1</version> <!-- Use the latest version -->
-        <scope>provided</scope>
-    </dependency>
+    <groupId>com.squareup.okhttp3</groupId>
+    <artifactId>okhttp</artifactId>
+    <version>4.9.1</version> <!-- Use the latest version -->
+    <scope>provided</scope>
+</dependency>
 ```
 
 - Tried to use the Java.net package to make HTTP requests from the plugin. Cytoscape was able to detect the plugin when Java.net package was used to make HTTP requests. Below is the code used.
