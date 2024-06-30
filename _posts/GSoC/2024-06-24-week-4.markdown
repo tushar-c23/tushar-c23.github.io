@@ -1,0 +1,89 @@
+---
+layout: post
+title:  "Week 4 with GSoC"
+date:   2024-06-24 16:10:07 +0530
+categories: gsoc
+---
+The fourth week included a lot of coding and debugging. The main goal was to successfully apply the layout changes to the network in cytoscape using the response from SyBLaRS API.
+
+### TODOs
+- [x] Parse the response from SyBLaRS API to get the layout changes.
+- [x] Format the response from the SyBLaRS API to extract the layout changes.
+- [x] Fetch the node information from the network in cytoscape.
+- [x] Apply the layout changes to the network in cytoscape.
+
+### Experiments with code
+- Tried to use org.json library to parse the JSON resonse and extract the required details from the response.
+    - Using this library with the below given version caused cytoscape to stop detecting my plugin which prompted me to use javax.json package.
+    - Eventually with the help of my mentor we figured out the issue, which was a mismatch between versions of the org.json library used in the plugin and the one used in the cytoscape application.
+
+```java
+// Parse the JSON string
+JSONObject json = new JSONObject(dataToSend);
+
+// Access the value of a specific key
+String elements = json.getJSONObject("elements").toString();
+
+dataToSend = elements;
+```
+
+```xml
+<!-- Incorrect version -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20210307</version>
+</dependency>
+
+<!-- Correct version -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>org.json</artifactId>
+    <version>chargebee-1.0</version>
+</dependency>
+```
+
+### Learnings
+- The Cytoscape desktop application uses multiple external dependencies which might conflict with the dependencies used in the plugin.
+- The Cytoscape desktop application maintains a descriptive error log which is very helpful in debugging the issues.
+- SybLaRS expects only the `"elements"` object of the exported network JSON to be sent as the request body.
+
+## Milestones
+### Successful parsing of the response from SyBLaRS API
+- Parse the JSON response from the SyBLaRS API to extract the layout changes and the node information.
+- Store the new coordinates of the nodes in a map with the node id as the key.
+
+```java
+//iterate over response
+JSONObject jsonResponse = new JSONObject(response.toString());
+JSONObject layoutFromResponse = jsonResponse.getJSONObject("layout");
+Iterator<String> nodes = layoutFromResponse.keys();
+while(nodes.hasNext()) {
+    String node = nodes.next();
+    JSONObject value = layoutFromResponse.getJSONObject(node);
+    JSONObject position = value.getJSONObject("position");
+    try {
+        nodePositions.put(node, position);
+    } catch (Exception e) {
+        System.out.println("Exception: " + e.getMessage());
+    }
+```
+
+### Successful application of layout changes to the network in Cytoscape
+- Set the node positions by matching the nodes with SUID.
+
+```java
+// Set the node positions
+final VisualProperty<Double> xLoc = BasicVisualLexicon.NODE_X_LOCATION;
+final VisualProperty<Double> yLoc = BasicVisualLexicon.NODE_Y_LOCATION;
+
+for(View<CyNode> nodeView : myView.getNodeViews()) {
+    String nodeName = myView.getModel().getRow(nodeView.getModel()).get("name", String.class);
+    String nodeId = nodeView.getModel().getSUID().toString();
+    JSONObject position = nodePositions.get(nodeId);
+    if(position != null) {
+        nodeView.setVisualProperty(xLoc, position.getDouble("x"));
+        nodeView.setVisualProperty(yLoc, position.getDouble("y"));
+    }
+}
+```
