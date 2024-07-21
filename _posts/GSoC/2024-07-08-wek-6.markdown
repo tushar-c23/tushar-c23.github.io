@@ -1,0 +1,102 @@
+---
+layout: post
+title:  "Week 6 with GSoC"
+date:   2024-07-08 16:10:07 +0530
+categories: gsoc
+---
+The sixth week was mainly focused on improving the code structure as well as implementation of the `LayoutContext` for fCoSE layout algorithm in the plugin.
+
+### TODOs
+- [x] Generate a layout context for the fCoSE layout algorithm.
+- [x] Implement `TunableValidator` for the layout context.
+- [x] Get the parameters for the layout from the user using `Tunable`.
+- [x] Dynamically generate the layout request using the parameters from the user. 
+
+### Experiments with code
+- Implement `TunableValidator` for the layout context to validate the parameters for the layout.
+
+```java
+package org.cytoscape.sample.internal;
+
+import java.io.IOException;
+
+import org.cytoscape.work.Tunable;
+import org.cytoscape.work.TunableValidator;
+
+public class CustomLayoutContext  implements TunableValidator {
+
+	@Tunable(description="Randomize")
+	public boolean randomize = true; // Default value
+	@Tunable(description="Node Dimensions Include Labels")
+	public boolean nodeDimensionsIncludeLabels= true;// Default value
+	@Tunable(description="Uniform Node Dimensions")
+	public boolean uniformNodeDimensions= false;// Default value
+	@Tunable(description="Pack Components")
+	public boolean packComponents= true;// Default value
+	@Tunable(description="Tile")
+	public boolean tile= true;// Default value
+
+	@Tunable(description="Padding")
+	public int padding= 30;// Default value
+	@Tunable(description="Node Repulsion")
+	public int nodeRepulsion= 4500;// Default value
+	@Tunable(description="Ideal Edge Length")
+	public int idealEdgeLength= 50;// Default value
+	@Tunable(description="Edge Elasticity")
+	public double edgeElasticity= 0.45;// Default value
+	@Tunable(description="Nesting Factor")
+	public double nestingFactor= 0.1;// Default value
+	@Tunable(description="Number of Iterations")
+	public int numIter= 2500;// Default value
+	@Tunable(description="Tiling Padding Vertical")
+	public int tilingPaddingVertical= 10;// Default value
+	@Tunable(description="Tiling Padding Horizontal")
+	public int tilingPaddingHorizontal= 10;// Default value
+	@Tunable(description="Gravity")
+	public double gravity= 0.25;// Default value
+	@Tunable(description="Gravity Range")
+	public double gravityRange= 3.8;// Default value
+	@Tunable(description="Gravity Compound")
+	public double gravityCompound= 1;// Default value
+	@Tunable(description="Gravity Range Compound")
+	public double gravityRangeCompound= 1.5;// Default value
+	@Tunable(description="Initial Energy On Incremental")
+	public double initialEnergyOnIncremental= 0.3;// Default value
+
+
+	public ValidationState getValidationState(final Appendable errMsg) {
+		return ValidationState.OK;
+	}
+}
+```
+
+### Learnings
+- The `TunableValidator` interface is used to validate the parameters for the layout.
+- The `Tunable` annotation is used to get the parameters from the user.
+- The `LayoutContext` is used to get and set the parameters for the layout from the user.
+- The layout context along with the tunable parameters generate a GUI for the user to input the parameters in a user friendly way.
+
+## Milestones
+### Successful implementation of the layout context for the fCoSE layout algorithm in the plugin to get the user entered parameters.
+```java
+JSONObject layoutOptions = new JSONObject();
+layoutOptions.put("name", "fcose");
+layoutOptions.put("randomize", myContext.randomize);
+layoutOptions.put("padding", myContext.padding);
+layoutOptions.put("nodeDimensionsIncludeLabels", myContext.nodeDimensionsIncludeLabels);
+layoutOptions.put("uniformNodeDimensions", myContext.uniformNodeDimensions);
+layoutOptions.put("packComponents", myContext.packComponents);
+layoutOptions.put("nodeRepulsion", myContext.nodeRepulsion);
+layoutOptions.put("idealEdgeLength", myContext.idealEdgeLength);
+layoutOptions.put("edgeElasticity", myContext.edgeElasticity);
+layoutOptions.put("nestingFactor", myContext.nestingFactor);
+layoutOptions.put("numIter", myContext.numIter);
+layoutOptions.put("tile", myContext.tile);
+layoutOptions.put("tilingPaddingVertical", myContext.tilingPaddingVertical);
+layoutOptions.put("tilingPaddingHorizontal", myContext.tilingPaddingHorizontal);
+layoutOptions.put("gravity", myContext.gravity);
+layoutOptions.put("gravityRange", myContext.gravityRange);
+layoutOptions.put("gravityCompound", myContext.gravityCompound);
+layoutOptions.put("gravityRangeCompound", myContext.gravityRangeCompound);
+layoutOptions.put("initialEnergyOnIncremental", myContext.initialEnergyOnIncremental);
+```
