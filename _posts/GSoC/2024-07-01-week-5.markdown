@@ -1,0 +1,55 @@
+---
+layout: post
+title:  "Week 5 with GSoC"
+date:   2024-07-01 16:10:07 +0530
+categories: gsoc
+---
+The fifth week was mainly focused on writing the functionalities as an implementation of the abstract layout algorithm laid down in cytoscape.
+
+### TODOs
+- [x] Extend `AbstractLayoutAlgorithm`.
+- [x] Implement fCoSE layout algorithm in the plugin.
+- [x] Implement the task iterator to apply the layout changes to the network in cytoscape.
+- [x] Implement `doLayout` method to apply the layout changes to the network in cytoscape. 
+
+### Experiments with code
+- Extended the `AbstractLayoutAlgorithm` class to implement the fCoSE layout algorithm. Using the previously developed knowledge and code, the migration to extend the abstract class was smooth.
+
+```java
+public class CustomLayout extends AbstractLayoutAlgorithm {
+	/**
+	 * Creates a new MyLayout object.
+	 */
+	private final CyNetworkViewWriterFactory writeCyJs;
+
+	public CustomLayout(UndoSupport undo, CyNetworkViewWriterFactory writeNetwork) {
+		super("customLayout","Custom Layout", undo);
+		this.writeCyJs = writeNetwork;
+	}
+
+	public TaskIterator createTaskIterator(CyNetworkView networkView,
+                                            Object context,
+                                            Set<View<CyNode>> nodesToLayOut,
+                                            String attrName) {
+		final CyNetworkView myView = networkView;
+		final CyNetworkViewWriterFactory writeCyJs = this.writeCyJs;
+		Task task = new AbstractLayoutTask(toString(), networkView, nodesToLayOut, attrName, undoSupport) {
+            @Override
+			protected void doLayout(TaskMonitor taskMonitor) {
+                    //.....
+				}		
+			}
+		};
+		return new TaskIterator(task);
+	}
+}
+```
+
+### Learnings
+- The `AbstractLayoutAlgorithm` class provides a lot of functionalities that can be used to implement the layout algorithms in cytoscape.
+- The `createTaskIterator` method is used to create a task iterator which is used to apply the layout changes to the network in cytoscape.
+- The `doLayout` method is used to apply the layout changes to the network in cytoscape.
+- Cytoscape layouts also offer layout context which can be used to get and set the parameters for the layout from the user.
+
+## Milestones
+### Successful implementation of fCoSE layout algorithm in the plugin.
