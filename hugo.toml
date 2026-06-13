@@ -33,13 +33,13 @@ disableRSS = false
   dateformNumTime = "2006-01-02 15:04"
 
   # SEO / document head
-  description = "Backend engineer at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
-  keywords = "Tushar Choudhary, backend engineer, Syfe, low-latency systems, financial trading systems, fintech, brokerage, payments, distributed systems, high-throughput, cross-border payments, Kotlin, Java, GSoC"
+  description = "SDE at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
+  keywords = "Tushar Choudhary, SDE, software development engineer, Syfe, low-latency systems, financial trading systems, fintech, brokerage, payments, distributed systems, high-throughput, cross-border payments, Kotlin, Java, GSoC"
   # images = ["img/og.png"]   # add an OG preview image here later (e.g. static/img/og.png)
   themeColor = "#1b1c1d"
 
   # Homepage subtitle (also used as the home page meta description)
-  homeSubtitle = "Backend engineer @ Syfe — I build low-latency, robust financial trading systems that move money across continents."
+  homeSubtitle = "SDE @ Syfe — I build low-latency, robust financial trading systems that move money across continents."
 
   enableThemeToggle = true        # auto-respects prefers-color-scheme, adds a toggle
   enableSharingButtons = false
