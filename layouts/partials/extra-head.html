@@ -1,0 +1,28 @@
+{{- if .IsHome -}}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Tushar Choudhary",
+  "url": "{{ .Site.BaseURL }}",
+  "jobTitle": "Backend Engineer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Syfe",
+    "url": "https://www.syfe.com"
+  },
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "Jawaharlal Nehru University"
+  },
+  "description": "Backend engineer building low-latency, robust financial trading and payment systems that move money across continents.",
+  "knowsAbout": ["Backend Engineering", "Financial Trading Systems", "Fintech", "Brokerage", "Payments", "Distributed Systems", "Low-latency Systems"],
+  "sameAs": [
+    "https://github.com/tushar-c23",
+    "https://www.linkedin.com/in/tushar-c23/",
+    "https://codeforces.com/profile/tushar-c23",
+    "https://twitter.com/tushar_c_"
+  ]
+}
+</script>
+{{- end -}}

@@ -1,5 +1,8 @@
-_site
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
+# Hugo
+/public/
+/resources/_gen/
+/assets/jsconfig.json
+.hugo_build.lock
+
+# OS / editor
+.DS_Store

@@ -1,0 +1,101 @@
+baseURL = "https://tushar-c23.github.io/"
+title = "Tushar Choudhary"
+languageCode = "en-us"
+theme = "hello-friend-ng"
+
+enableRobotsTXT = true
+enableEmoji = true
+disableSitemap = false
+disableRSS = false
+
+# Clean post URLs: content/posts/week-1.md -> /posts/week-1/
+# (no [permalinks] override = Hugo defaults, which are already clean)
+
+[services]
+  [services.googleAnalytics]
+    ID = "G-4X2YPLZQCE"
+
+[taxonomies]
+  tag    = "tags"
+  series = "series"
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true          # allow raw HTML (CV page) and inline HTML in posts
+  [markup.highlight]
+    style = "monokai"
+    noClasses = true
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  # SEO / document head
+  description = "Backend engineer at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
+  keywords = "Tushar Choudhary, backend engineer, Syfe, low-latency systems, financial trading systems, fintech, brokerage, payments, distributed systems, high-throughput, cross-border payments, Kotlin, Java, GSoC"
+  # images = ["img/og.png"]   # add an OG preview image here later (e.g. static/img/og.png)
+  themeColor = "#1b1c1d"
+
+  # Homepage subtitle (also used as the home page meta description)
+  homeSubtitle = "Backend engineer @ Syfe — I build low-latency, robust financial trading systems that move money across continents."
+
+  enableThemeToggle = true        # auto-respects prefers-color-scheme, adds a toggle
+  enableSharingButtons = false
+  enableReadingTime = true
+  enableGlobalLanguageMenu = false
+  disableReadOtherPosts = false
+
+  customCSS = []
+  customJS  = []
+
+  [params.author]
+    name = "Tushar Choudhary"
+
+  [params.logo]
+    logoMark     = ">"
+    logoText     = "tushar@syfe:~$"
+    logoHomeLink = "/"
+
+  [params.footer]
+    trademark = 2026
+    rss = true
+    copyright = true
+    author = true
+    topText = []
+    bottomText = ["Powered by <a href=\"https://gohugo.io\">Hugo</a> & <a href=\"https://github.com/rhazdon/hugo-theme-hello-friend-ng\">hello-friend-ng</a>"]
+
+  [params.favicon.color]
+    mask = "#1b1c1d"
+    msapplication = "#1b1c1d"
+    theme = "#1b1c1d"
+
+  [[params.social]]
+    name = "github"
+    url  = "https://github.com/tushar-c23"
+
+  [[params.social]]
+    name = "linkedin"
+    url  = "https://www.linkedin.com/in/tushar-c23/"
+
+  [[params.social]]
+    name = "email"
+    url  = "mailto:tusharc.cse@gmail.com"
+
+  [[params.social]]
+    name = "twitter"
+    url  = "https://twitter.com/tushar_c_"
+
+[menu]
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "about/"
+    weight     = 1
+
+  [[menu.main]]
+    identifier = "posts"
+    name       = "Posts"
+    url        = "posts/"
+    weight     = 2

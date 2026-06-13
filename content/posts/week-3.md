@@ -1,8 +1,8 @@
 ---
-layout: post
-title:  "Week 3 with GSoC"
-date:   2024-06-17 16:10:07 +0530
-categories: gsoc
+title: "Week 3 with GSoC"
+date: 2024-06-17T16:10:07+05:30
+tags: ["gsoc"]
+series: ["GSoC '24"]
 ---
 The third week included a lot of exploration and trying out multiple approaches to successfully connect cytoscape plugin to the SyBLaRS API.
 

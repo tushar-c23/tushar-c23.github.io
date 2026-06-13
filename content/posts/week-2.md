@@ -1,8 +1,8 @@
 ---
-layout: post
-title:  "Week 2 with GSoC"
-date:   2024-06-10 16:10:07 +0530
-categories: gsoc
+title: "Week 2 with GSoC"
+date: 2024-06-10T16:10:07+05:30
+tags: ["gsoc"]
+series: ["GSoC '24"]
 ---
 The second week included a lot more application of the information gathered in the first week. I also experimented with the pre populated layouts on Cytoscape desktop application.
 

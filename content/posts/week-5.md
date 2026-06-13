@@ -1,8 +1,8 @@
 ---
-layout: post
-title:  "Week 5 with GSoC"
-date:   2024-07-01 16:10:07 +0530
-categories: gsoc
+title: "Week 5 with GSoC"
+date: 2024-07-01T16:10:07+05:30
+tags: ["gsoc"]
+series: ["GSoC '24"]
 ---
 The fifth week was mainly focused on writing the functionalities as an implementation of the abstract layout algorithm laid down in cytoscape.
 
