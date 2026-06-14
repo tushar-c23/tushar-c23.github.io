@@ -1,0 +1,26 @@
+/* Analogy callout — highlights the key explanatory analogies in a post */
+.analogy {
+  margin: 1.75rem 0;
+  padding: 1rem 1.25rem 0.6rem;
+  border-left: 4px solid #67a2c9;
+  background: rgba(103, 162, 201, 0.10);
+  border-radius: 4px;
+}
+
+.analogy-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #67a2c9;
+}
+
+.analogy-label::before {
+  content: "💡 ";
+}
+
+.analogy p:last-child {
+  margin-bottom: 0.4rem;
+}

@@ -1,0 +1,5 @@
+{{- $label := .Get "label" | default "Analogy" -}}
+<aside class="analogy" aria-label="{{ $label }}">
+  <span class="analogy-label">{{ $label }}</span>
+  {{ .Inner | markdownify }}
+</aside>

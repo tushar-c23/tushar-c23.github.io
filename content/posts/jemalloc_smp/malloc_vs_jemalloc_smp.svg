@@ -1,0 +1,135 @@
+<svg viewBox="0 0 1060 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="malloc versus jemalloc SMP scalability">
+<defs>
+<style>
+svg{
+ --bg:#ffffff; --ink:#2a2a33; --muted:#7c7c8a; --line:#cfcfdb; --panel:#f4f4f8;
+ --person:#5b6b8c; --arena:#2f9d99; --block:#e0a23c; --blockEdge:#b67e22;
+ --lock:#d9534f; --ok:#3a9d6a;
+}
+@media (prefers-color-scheme: dark){
+ svg{
+  --bg:#16161c; --ink:#e9e9f1; --muted:#9a9aab; --line:#3b3b49; --panel:#1f1f27;
+  --person:#8fa3c9; --arena:#54c7c2; --block:#f0b659; --blockEdge:#c98f2e;
+  --lock:#ef6b67; --ok:#5cc389;
+ }
+}
+text{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+.t{fill:var(--ink);} .m{fill:var(--muted);}
+</style>
+<symbol id="thread" viewBox="0 0 34 48"><circle cx="17" cy="11" r="8" fill="var(--person)"/><rect x="6" y="23" width="22" height="22" rx="10" fill="var(--person)"/></symbol>
+<symbol id="arena" viewBox="0 0 40 56"><circle cx="20" cy="12" r="9" fill="var(--arena)"/><rect x="7" y="25" width="26" height="27" rx="11" fill="var(--arena)"/></symbol>
+<symbol id="block" viewBox="0 0 18 18"><rect x="1" y="1" width="16" height="16" rx="3" fill="var(--block)" stroke="var(--blockEdge)" stroke-width="1.3"/></symbol>
+<marker id="aS" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink)"/></marker>
+<marker id="aM" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--muted)"/></marker>
+</defs>
+
+<rect x="0" y="0" width="1060" height="700" rx="20" fill="var(--bg)"/>
+
+<text x="530" y="34" text-anchor="middle" font-size="25" font-weight="700" class="t">malloc vs jemalloc &#8212; SMP scalability</text>
+<text x="530" y="57" text-anchor="middle" font-size="13" class="m">people = threads &#183; blocks = memory &#183; clerks = arenas</text>
+
+<rect x="24" y="80" width="492" height="600" rx="18" fill="var(--panel)" stroke="var(--line)" stroke-width="1"/>
+<rect x="544" y="80" width="492" height="600" rx="18" fill="var(--panel)" stroke="var(--line)" stroke-width="1"/>
+
+<!-- LEFT: malloc -->
+<text x="48" y="118" font-size="18" font-weight="700" class="t">Old malloc</text>
+<text x="48" y="139" font-size="12.5" class="m">one global lock for all threads</text>
+
+<text x="462" y="170" text-anchor="middle" font-size="11" class="m">MEMORY</text>
+<rect x="420" y="176" width="84" height="372" rx="8" fill="none" stroke="var(--ink)" stroke-width="1.5"/>
+<line x1="420" y1="229" x2="504" y2="229" stroke="var(--line)"/>
+<line x1="420" y1="282" x2="504" y2="282" stroke="var(--line)"/>
+<line x1="420" y1="335" x2="504" y2="335" stroke="var(--line)"/>
+<line x1="420" y1="388" x2="504" y2="388" stroke="var(--line)"/>
+<line x1="420" y1="441" x2="504" y2="441" stroke="var(--line)"/>
+<line x1="420" y1="494" x2="504" y2="494" stroke="var(--line)"/>
+<use href="#block" x="430" y="213" width="16" height="16"/><use href="#block" x="452" y="213" width="16" height="16"/><use href="#block" x="474" y="213" width="16" height="16"/>
+<use href="#block" x="430" y="266" width="16" height="16"/><use href="#block" x="474" y="266" width="16" height="16"/>
+<use href="#block" x="452" y="319" width="16" height="16"/>
+<use href="#block" x="430" y="372" width="16" height="16"/><use href="#block" x="452" y="372" width="16" height="16"/><use href="#block" x="474" y="372" width="16" height="16"/>
+<use href="#block" x="430" y="425" width="16" height="16"/><use href="#block" x="452" y="425" width="16" height="16"/>
+<use href="#block" x="474" y="478" width="16" height="16"/>
+
+<use href="#arena" x="360" y="330" width="40" height="56"/>
+<text x="380" y="402" text-anchor="middle" font-size="11" fill="var(--arena)">1 arena</text>
+<line x1="402" y1="356" x2="418" y2="356" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+
+<circle cx="312" cy="332" r="30" fill="var(--lock)" opacity="0.12"/>
+<rect x="299" y="326" width="26" height="22" rx="4" fill="var(--lock)"/>
+<path d="M305 326 V317 A8 8 0 0 1 321 317 V326" stroke="var(--lock)" stroke-width="4" fill="none"/>
+<circle cx="312" cy="335" r="2.6" fill="#ffffff" opacity="0.9"/>
+<text x="312" y="304" text-anchor="middle" font-size="11" font-weight="600" fill="var(--lock)">global lock</text>
+
+<line x1="52" y1="386" x2="300" y2="386" stroke="var(--line)" stroke-dasharray="5 4"/>
+<use href="#thread" x="252" y="336" width="34" height="48"/>
+<use href="#thread" x="206" y="336" width="34" height="48"/><use href="#block" x="234" y="350" width="16" height="16"/>
+<use href="#thread" x="160" y="336" width="34" height="48"/>
+<use href="#thread" x="114" y="336" width="34" height="48"/><use href="#block" x="142" y="350" width="16" height="16"/>
+<use href="#thread" x="62" y="336" width="34" height="48"/>
+<line x1="286" y1="350" x2="300" y2="338" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#aS)"/>
+<text x="175" y="408" text-anchor="middle" font-size="12" class="m">all threads wait in one line</text>
+
+<text x="48" y="600" font-size="13" font-weight="600" class="t">One lock guards all of memory.</text>
+<text x="48" y="623" font-size="12.5" class="m">Every thread competes for it, so most just stall and wait.</text>
+<text x="48" y="645" font-size="12.5" class="m">Adding CPU cores doesn&#8217;t help &#8212; contention only grows.</text>
+
+<!-- RIGHT: jemalloc -->
+<text x="568" y="118" font-size="18" font-weight="700" class="t">jemalloc</text>
+<text x="568" y="139" font-size="12.5" class="m">independent arenas + private thread caches</text>
+
+<rect x="983" y="116" width="26" height="20" rx="4" fill="var(--ok)"/>
+<path d="M988 116 V108 A8 8 0 0 1 1004 104" stroke="var(--ok)" stroke-width="4" fill="none"/>
+<text x="996" y="150" text-anchor="middle" font-size="11" font-weight="600" fill="var(--ok)">no shared lock</text>
+
+<!-- lane 1 -->
+<use href="#thread" x="572" y="201" width="34" height="48"/><use href="#block" x="566" y="244" width="14" height="14"/>
+<rect x="612" y="216" width="44" height="24" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+<use href="#block" x="617" y="219" width="14" height="14"/><use href="#block" x="635" y="219" width="14" height="14"/>
+<text x="634" y="254" text-anchor="middle" font-size="9.5" class="m">cache</text>
+<use href="#arena" x="712" y="197" width="40" height="56"/>
+<text x="732" y="266" text-anchor="middle" font-size="11" fill="var(--arena)">Arena 1</text>
+<rect x="836" y="181" width="128" height="88" rx="6" fill="none" stroke="var(--ink)" stroke-width="1.4"/>
+<line x1="836" y1="225" x2="964" y2="225" stroke="var(--line)"/>
+<use href="#block" x="848" y="201" width="15" height="15"/><use href="#block" x="870" y="201" width="15" height="15"/><use href="#block" x="914" y="201" width="15" height="15"/>
+<use href="#block" x="848" y="247" width="15" height="15"/><use href="#block" x="892" y="247" width="15" height="15"/><use href="#block" x="936" y="247" width="15" height="15"/>
+<line x1="610" y1="232" x2="600" y2="226" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#aS)"/>
+<line x1="658" y1="226" x2="710" y2="226" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+<line x1="754" y1="226" x2="834" y2="226" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+
+<!-- lane 2 -->
+<use href="#thread" x="572" y="336" width="34" height="48"/>
+<rect x="612" y="351" width="44" height="24" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+<use href="#block" x="617" y="354" width="14" height="14"/><use href="#block" x="635" y="354" width="14" height="14"/>
+<use href="#arena" x="712" y="332" width="40" height="56"/>
+<text x="732" y="401" text-anchor="middle" font-size="11" fill="var(--arena)">Arena 2</text>
+<rect x="836" y="316" width="128" height="88" rx="6" fill="none" stroke="var(--ink)" stroke-width="1.4"/>
+<line x1="836" y1="360" x2="964" y2="360" stroke="var(--line)"/>
+<use href="#block" x="848" y="336" width="15" height="15"/><use href="#block" x="892" y="336" width="15" height="15"/><use href="#block" x="936" y="336" width="15" height="15"/>
+<use href="#block" x="870" y="382" width="15" height="15"/><use href="#block" x="914" y="382" width="15" height="15"/>
+<line x1="610" y1="367" x2="600" y2="361" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#aS)"/>
+<line x1="658" y1="361" x2="710" y2="361" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+<line x1="754" y1="361" x2="834" y2="361" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+
+<!-- lane 3 -->
+<use href="#thread" x="572" y="471" width="34" height="48"/><use href="#block" x="566" y="514" width="14" height="14"/>
+<rect x="612" y="486" width="44" height="24" rx="6" fill="var(--bg)" stroke="var(--line)"/>
+<use href="#block" x="617" y="489" width="14" height="14"/><use href="#block" x="635" y="489" width="14" height="14"/>
+<use href="#arena" x="712" y="467" width="40" height="56"/>
+<text x="732" y="536" text-anchor="middle" font-size="11" fill="var(--arena)">Arena 3</text>
+<rect x="836" y="451" width="128" height="88" rx="6" fill="none" stroke="var(--ink)" stroke-width="1.4"/>
+<line x1="836" y1="495" x2="964" y2="495" stroke="var(--line)"/>
+<use href="#block" x="848" y="471" width="15" height="15"/><use href="#block" x="892" y="471" width="15" height="15"/>
+<use href="#block" x="848" y="517" width="15" height="15"/><use href="#block" x="892" y="517" width="15" height="15"/><use href="#block" x="936" y="517" width="15" height="15"/>
+<line x1="610" y1="502" x2="600" y2="496" stroke="var(--ink)" stroke-width="1.5" marker-end="url(#aS)"/>
+<line x1="658" y1="496" x2="710" y2="496" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+<line x1="754" y1="496" x2="834" y2="496" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+
+<line x1="568" y1="566" x2="588" y2="566" stroke="var(--ink)" stroke-width="1.6" marker-end="url(#aS)"/>
+<text x="594" y="570" font-size="11" class="m">grab from own cache &#8212; no lock</text>
+<line x1="770" y1="566" x2="790" y2="566" stroke="var(--muted)" stroke-width="1.3" stroke-dasharray="4 3" marker-end="url(#aM)"/>
+<text x="796" y="570" font-size="11" class="m">arena refills its own slice</text>
+
+<text x="568" y="600" font-size="13" font-weight="600" class="t">Each thread serves itself from a private cache.</text>
+<text x="568" y="623" font-size="12.5" class="m">Arenas are fully independent &#8212; no shared lock to wait for.</text>
+<text x="568" y="645" font-size="12.5" class="m">More cores &#8658; more parallel lanes &#8658; it scales.</text>
+</svg>

@@ -47,7 +47,7 @@ disableRSS = false
   enableGlobalLanguageMenu = false
   disableReadOtherPosts = false
 
-  customCSS = []
+  customCSS = ["/css/custom.css"]
   customJS  = []
 
   [params.author]
