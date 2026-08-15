@@ -106,6 +106,8 @@ So sorting and encoding are coupled to the same flag:
 | already alphabetical | `false` | no | **no** |
 | needs reordering | `true` | yes | yes |
 
+![Two URIs describing the same endpoint diverge through buildReorderingParameters and collide as distinct registry keys](uri-normalization-branch.svg)
+
 Two inputs that describe the same endpoint take two different paths and come out as two different strings. Both are "normalised". Neither is wrong on its own terms. They just aren't equal, and equality is what the registry uses.
 
 Note the two other early exits, which have the same effect: a query with no `&` at all (single parameter), and `parameters.size() == 1`. Both skip the block entirely and stay unencoded.

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 540" width="920" height="540" style="background: #16161e; border-radius: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+  <defs>
+    <!-- Arrow Markers -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#565f89" />
+    </marker>
+    <marker id="arrow-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7dcfff" />
+    </marker>
+    <marker id="arrow-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#ff9e64" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#f7768e" />
+    </marker>
+  </defs>
+
+  <!-- Title / Terminal Header -->
+  <rect x="20" y="16" width="880" height="34" rx="6" fill="#1f2335" />
+  <circle cx="42" cy="33" r="5" fill="#f7768e" />
+  <circle cx="58" cy="33" r="5" fill="#e0af68" />
+  <circle cx="74" cy="33" r="5" fill="#9ece6a" />
+  <text x="96" y="38" fill="#7aa2f7" font-size="13" font-weight="600">URISupport.buildReorderingParameters — The Diverging Pipeline</text>
+
+  <!-- ================= TOP PATH (UNSORTED -> SORT &amp; ENCODE) ================= -->
+  <!-- Input A -->
+  <rect x="30" y="80" width="270" height="56" rx="6" fill="#1a1b26" stroke="#414868" stroke-width="1.5" />
+  <text x="45" y="102" fill="#565f89" font-size="11" font-weight="600">INPUT 1 (Unsorted)</text>
+  <text x="45" y="122" fill="#c0caf5" font-size="12">retries=3&amp;brokers=localhost:19092</text>
+
+  <!-- Branch Decision A -->
+  <path d="M 300 108 L 340 108" stroke="#565f89" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+  <rect x="350" y="80" width="150" height="56" rx="6" fill="#1a1b26" stroke="#ff9e64" stroke-width="1.5" stroke-dasharray="4" />
+  <text x="365" y="103" fill="#ff9e64" font-size="11" font-weight="600">sort = true</text>
+  <text x="365" y="122" fill="#a9b1d6" font-size="11">Needs Reordering</text>
+
+  <!-- Action A -->
+  <path d="M 500 108 L 540 108" stroke="#ff9e64" stroke-width="1.5" fill="none" marker-end="url(#arrow-orange)" />
+  <rect x="550" y="74" width="340" height="68" rx="6" fill="#24283b" stroke="#7dcfff" stroke-width="1.5" />
+  <text x="565" y="96" fill="#7dcfff" font-size="11" font-weight="600">createQueryString(..., encode=true)</text>
+  <text x="565" y="116" fill="#9ece6a" font-size="11">✓ Alphabetized</text>
+  <text x="565" y="132" fill="#f7768e" font-size="11">✓ Applied URL encoding (%3A)</text>
+
+  <!-- Output A -->
+  <path d="M 720 142 L 720 174" stroke="#7dcfff" stroke-width="1.5" fill="none" marker-end="url(#arrow-cyan)" />
+  <rect x="550" y="180" width="340" height="42" rx="6" fill="#1f2335" stroke="#7dcfff" stroke-width="1.5" />
+  <text x="565" y="206" fill="#7dcfff" font-size="12">brokers=localhost<tspan fill="#f7768e" font-weight="bold">%3A</tspan>19092&amp;retries=3</text>
+
+
+  <!-- ================= BOTTOM PATH (SORTED -> FAST PATH) ================= -->
+  <!-- Input B -->
+  <rect x="30" y="260" width="270" height="56" rx="6" fill="#1a1b26" stroke="#414868" stroke-width="1.5" />
+  <text x="45" y="282" fill="#565f89" font-size="11" font-weight="600">INPUT 2 (Already Sorted)</text>
+  <text x="45" y="302" fill="#c0caf5" font-size="12">brokers=localhost:19092&amp;retries=3</text>
+
+  <!-- Branch Decision B -->
+  <path d="M 300 288 L 340 288" stroke="#565f89" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+  <rect x="350" y="260" width="150" height="56" rx="6" fill="#1a1b26" stroke="#9ece6a" stroke-width="1.5" stroke-dasharray="4" />
+  <text x="365" y="283" fill="#9ece6a" font-size="11" font-weight="600">sort = false</text>
+  <text x="365" y="302" fill="#a9b1d6" font-size="11">Fast-path Bypass</text>
+
+  <!-- Action B -->
+  <path d="M 500 288 L 540 288" stroke="#9ece6a" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+  <rect x="550" y="254" width="340" height="68" rx="6" fill="#24283b" stroke="#414868" stroke-width="1.5" />
+  <text x="565" y="276" fill="#e0af68" font-size="11" font-weight="600">Pass-through Substring</text>
+  <text x="565" y="296" fill="#9ece6a" font-size="11">✓ Already Alphabetized</text>
+  <text x="565" y="312" fill="#565f89" font-size="11">✗ Encoding Skipped</text>
+
+  <!-- Output B -->
+  <path d="M 720 322 L 720 354" stroke="#565f89" stroke-width="1.5" fill="none" marker-end="url(#arrow)" />
+  <rect x="550" y="360" width="340" height="42" rx="6" fill="#1f2335" stroke="#414868" stroke-width="1.5" />
+  <text x="565" y="386" fill="#a9b1d6" font-size="12">brokers=localhost<tspan fill="#e0af68" font-weight="bold">:</tspan>19092&amp;retries=3</text>
+
+
+  <!-- ================= CONVERGENCE TO RESULT BOX ================= -->
+  <!-- Clean bracket merging Output A and Output B into the final warning block -->
+  <path d="M 890 201 L 905 201 L 905 381 L 890 381" stroke="#f7768e" stroke-width="1.5" fill="none" />
+  <path d="M 905 291 L 905 470 L 820 470" stroke="#f7768e" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)" />
+
+  <rect x="340" y="435" width="470" height="70" rx="6" fill="#2d202a" stroke="#f7768e" stroke-width="1.5" />
+  <text x="355" y="460" fill="#f7768e" font-size="12" font-weight="700">LRU Registry Cache Miss (Key Inequality)</text>
+  <text x="355" y="479" fill="#c0caf5" font-size="11">Keys mismatch by 1 char (<tspan fill="#f7768e">%3A</tspan> vs <tspan fill="#e0af68">:</tspan>) despite identical intent</text>
+  <text x="355" y="495" fill="#f7768e" font-size="11">→ 2 Separate Endpoints + Duplicate Producer Pools</text>
+</svg>
