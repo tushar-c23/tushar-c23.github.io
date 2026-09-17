@@ -1,14 +1,16 @@
 ---
-title: "Camel sorts your URI parameters — except when it doesn't"
+title: "Camel sorts your URI parameters, except when it doesn't"
 date: 2026-08-15T10:00:00+05:30
 tags: ["apache-camel", "kafka", "java"]
-description: "Apache Camel normalises endpoint URIs by sorting query parameters, so param order shouldn't matter. It does — if any value contains a character that needs encoding. Here's the branch that causes it."
+description: "Apache Camel normalises endpoint URIs by sorting query parameters, so param order shouldn't matter. It does if any value contains a character that needs encoding. Here's the branch that causes it."
 ---
+> **Update (September 2026):** After this post went out, Claus Ibsen (Apache Camel maintainer) opened [CAMEL-24524](https://issues.apache.org/jira/browse/CAMEL-24524) for exactly this branch and fixed it two days later in [PR #25810](https://github.com/apache/camel/pull/25810). It ships in **Camel 4.23.0**. Details at the [end of the post](#update-fixed-upstream-in-camel-4230). Everything below still describes the behaviour on 4.8.5 and every release before 4.23.0.
+
 We recently shipped a fix at work for a Kafka producer leak: a URI was being built with the record key baked into it, so every distinct key produced a distinct Camel endpoint, and every endpoint got its own `KafkaProducer`, its own network thread, and its own 10-thread worker pool. One string, hundreds of producers.
 
 Fixing it was easy. Understanding *why* Camel behaved that way sent me into `camel-core`, and on the way I tripped over something I haven't seen written down anywhere.
 
-Short version: **Camel normalises endpoint URIs by sorting the query parameters, so parameter order shouldn't matter. It usually doesn't. But if any parameter value contains a character that needs URL-encoding, order suddenly does matter** — and you silently get two endpoints where you meant one.
+Short version: **Camel normalises endpoint URIs by sorting the query parameters, so parameter order shouldn't matter. It usually doesn't. But if any parameter value contains a character that needs URL-encoding, order suddenly does matter**, and you silently get two endpoints where you meant one.
 
 Every Kafka broker string contains such a character. It's the colon in `host:port`.
 
@@ -19,10 +21,10 @@ Some background, if you haven't been inside Camel.
 When you call `camelContext.getEndpoint(uri)`, Camel doesn't build a fresh endpoint each time. It normalises the URI, looks it up in an LRU registry keyed by that normalised string, and returns the cached instance if there is one. The endpoint owns the producer, and the producer owns the connections and threads.
 
 {{< analogy >}}
-Think of the URI as a room number rather than a description of a room. Two people who write the same room number down get sent to the same room. Two people who write it slightly differently get sent to two different rooms — even if they were describing the same place, and even if the second room has to be built from scratch to accommodate the mistake.
+Think of the URI as a room number rather than a description of a room. Two people who write the same room number down get sent to the same room. Two people who write it slightly differently get sent to two different rooms, even if they were describing the same place, and even if the second room has to be built from scratch to accommodate the mistake.
 {{< /analogy >}}
 
-So the normalisation step is load-bearing. It's what makes `kafka:t?a=1&b=2` and `kafka:t?b=2&a=1` mean the same thing. That's the whole point of it — the Javadoc says as much:
+So the normalisation step is load-bearing. It's what makes `kafka:t?a=1&b=2` and `kafka:t?b=2&a=1` mean the same thing. That's the whole point of it. The Javadoc says as much:
 
 > normalize uri so we can do endpoint hits with minor mistakes and parameters is not in the same order
 
@@ -54,7 +56,7 @@ B same? false
 registry: 3
 ```
 
-Case A behaves exactly as advertised. Case B does not — and look closely at *how* it fails.
+Case A behaves exactly as advertised. Case B does not. Look closely at *how* it fails.
 
 The sorting worked. Both B strings have `brokers` before `retries`. The keys are in identical order. The strings still differ, by exactly one character: `%3A` versus `:`.
 
@@ -97,7 +99,7 @@ private static String buildReorderingParameters(String scheme, String path, Stri
 
 The comment tells you the intent: *only build a new query string if the keys were actually resorted*. Sensible optimisation. Rebuilding a string you don't need to rebuild is waste.
 
-The catch is that **rebuilding the query string is also the only thing that applies encoding.** That third argument to `createQueryString(array, parameters, true)` is `encode`. When `sort` stays `false`, the method never runs, and the original query substring is concatenated into the final URI verbatim — never parsed, never encoded.
+The catch is that **rebuilding the query string is also the only thing that applies encoding.** That third argument to `createQueryString(array, parameters, true)` is `encode`. When `sort` stays `false`, the method never runs, and the original query substring is concatenated into the final URI verbatim: never parsed, never encoded.
 
 So sorting and encoding are coupled to the same flag:
 
@@ -119,7 +121,7 @@ The failure is completely silent. You don't get an exception, a warning, or a lo
 - an extra `KafkaProducer`
 - an extra `kafka-producer-network-thread`
 - an extra worker thread pool, which in Camel's Kafka component grows to 10 threads under load
-- an extra set of TCP connections — and if you're on `SASL_SSL`, an extra TLS and SASL handshake plus roughly 50&nbsp;KB of on-heap buffers per connection
+- an extra set of TCP connections, and if you're on `SASL_SSL`, an extra TLS and SASL handshake plus roughly 50&nbsp;KB of on-heap buffers per connection
 
 All because two call sites in two different files wrote the same parameters in a different order.
 
@@ -149,13 +151,27 @@ A `TreeMap`. The DSL emits parameters in alphabetical order **by construction**,
 
 That's why a piece of code in our codebase that rebuilds its Kafka URI on *every single invocation* is safe rather than catastrophic. It isn't luck. It's that `TreeMap`.
 
-It also means the safety is a property of the builder, not of Camel's normaliser. Replace one `kafka(topic).brokers(...)` call with a "simpler" string template and you reintroduce the bug in a form that is genuinely hard to see in review — the two URIs look identical to a human, because as descriptions of an endpoint, they are.
+It also means the safety is a property of the builder, not of Camel's normaliser. Replace one `kafka(topic).brokers(...)` call with a "simpler" string template and you reintroduce the bug in a form that is genuinely hard to see in review: the two URIs look identical to a human, because as descriptions of an endpoint, they are.
+
+## Update: fixed upstream in Camel 4.23.0
+
+A few weeks after publishing this, Claus Ibsen (one of Camel's maintainers) read the post and filed [CAMEL-24524](https://issues.apache.org/jira/browse/CAMEL-24524) against `camel-core`:
+
+> `URISupport.normalizeUri` fast path skips value encoding when parameters are already sorted, causing duplicate endpoints
+
+The Jira traces the behaviour back to [CAMEL-14648](https://issues.apache.org/jira/browse/CAMEL-14648) (2020), the change that introduced the skip-if-already-sorted optimisation. The fast parser treats `:` as safe; `URLEncoder.encode` does not. Coupling the rebuild to the sort flag made which of the two applied depend on the order the caller happened to write the parameters in.
+
+It was fixed in [PR #25810](https://github.com/apache/camel/pull/25810), merged 28 August 2026, released in **Camel 4.23.0**.
+
+The fix decouples the two concerns: `buildReorderingParameters` now **always** rebuilds the query string, so encoding no longer rides on the sort flag. The encoding it applies is `UnsafeUriCharactersEncoder` (RFC 3986-aware) rather than the more aggressive `URLEncoder`, with `&` and `=` additionally escaped so Camel's own `key=value&key=value` syntax survives. That keeps `:`, `/` and `,` literal in the normalised output, which is what the rest of the framework already assumed.
+
+So on 4.23.0 and later, both of my case-B URIs normalise to the same string and you get one endpoint. On anything earlier, the takeaways below still apply, and they're worth keeping regardless, because sorting your parameters at the call site costs nothing and doesn't depend on which Camel version you're pinned to.
 
 ## Takeaways
 
 1. **Endpoint identity in Camel is the normalised URI string, not the endpoint's meaning.** Anything that changes the string changes the identity, and identity is what owns your connections and threads.
 2. **Never hand-assemble Camel endpoint URIs.** Use the endpoint DSL. The `TreeMap` is doing more for you than readability.
-3. **Normalisation is not idempotent across input orderings when values need encoding.** If you must build a URI by hand, sort your parameters alphabetically yourself, or you're relying on a branch that was written as a performance optimisation.
+3. **Normalisation is not idempotent across input orderings when values need encoding.** If you must build a URI by hand, sort your parameters alphabetically yourself, or you're relying on a branch that was written as a performance optimisation. (Fixed in 4.23.0, but your call sites outlive your version pins.)
 4. When you're debugging "why do I have N of these", print `endpoint.getEndpointUri()` for every entry in the registry and diff them character by character. The difference may be one character wide.
 
 ---
