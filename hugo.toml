@@ -1,6 +1,6 @@
 baseURL = "https://tushar-c23.github.io/"
 title = "Tushar Choudhary"
-languageCode = "en-us"
+locale = "en-us"
 theme = "hello-friend-ng"
 
 enableRobotsTXT = true
