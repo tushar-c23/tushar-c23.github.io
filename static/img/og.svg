@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200">
+  <!-- Source for og.png. The canvas is square because qlmanage only renders square thumbnails; the 1200x630 social card is the centre band (y=285..915). Regenerate: qlmanage -t -s 1200 -o . og.svg, then sips -c 630 1200 og.svg.png to crop the band back out. -->
+  <rect width="1200" height="1200" fill="#1b1c1d"/>
+  <rect x="0" y="285" width="1200" height="8" fill="#67a2c9"/>
+  <g font-family="SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="90" y="435" font-size="34" fill="#67a2c9">&gt;</text>
+    <text x="126" y="435" font-size="34" fill="#999">tushar@syfe:~$</text>
+    <text x="90" y="585" font-size="72" font-weight="700" fill="#f4f1ef">Tushar Choudhary</text>
+    <text x="90" y="655" font-size="32" fill="#dcdcdc">SDE @ Syfe</text>
+    <text x="90" y="722" font-size="27" fill="#999">Low-latency trading systems · backend · fintech</text>
+    <text x="90" y="764" font-size="27" fill="#999">distributed systems · payments that cross continents</text>
+    <text x="90" y="855" font-size="26" fill="#67a2c9">tushar-c23.github.io</text>
+  </g>
+</svg>

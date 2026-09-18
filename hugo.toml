@@ -35,7 +35,7 @@ disableRSS = false
   # SEO / document head
   description = "SDE at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
   keywords = "Tushar Choudhary, SDE, software development engineer, Syfe, low-latency systems, financial trading systems, fintech, brokerage, payments, distributed systems, high-throughput, cross-border payments, Kotlin, Java, GSoC"
-  # images = ["img/og.png"]   # add an OG preview image here later (e.g. static/img/og.png)
+  images = ["img/og.png"]   # social preview card; per-post override with `images:` in front matter
   themeColor = "#1b1c1d"
 
   # Homepage subtitle (also used as the home page meta description)
