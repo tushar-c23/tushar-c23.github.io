@@ -3,6 +3,7 @@ title: "Week 6 with GSoC"
 date: 2024-07-08T16:10:07+05:30
 tags: ["gsoc"]
 series: ["GSoC '24"]
+images: ["/img/og-week-6.png"]
 ---
 The sixth week was mainly focused on improving the code structure as well as implementation of the `LayoutContext` for fCoSE layout algorithm in the plugin.
 

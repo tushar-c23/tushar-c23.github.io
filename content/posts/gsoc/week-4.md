@@ -3,6 +3,7 @@ title: "Week 4 with GSoC"
 date: 2024-06-24T16:10:07+05:30
 tags: ["gsoc"]
 series: ["GSoC '24"]
+images: ["/img/og-week-4.png"]
 ---
 The fourth week included a lot of coding and debugging. The main goal was to successfully apply the layout changes to the network in cytoscape using the response from SyBLaRS API.
 

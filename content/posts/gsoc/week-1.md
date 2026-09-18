@@ -3,6 +3,7 @@ title: "Week 1 with GSoC"
 date: 2024-06-03T16:10:07+05:30
 tags: ["gsoc"]
 series: ["GSoC '24"]
+images: ["/img/og-week-1.png"]
 ---
 The first week was fairly informative. Following is a list of my learnings this week:
 - Learned quite a lot about how the Cytoscape apps work and how they are written.
