@@ -1,0 +1,10 @@
+# Lines cycled by nuno's typed masthead: `pre` in ink, `accent` in the accent colour.
+lines:
+  - pre: "Low-latency systems\n"
+    accent: "that move money."
+  - pre: "Kafka writes batches,\n"
+    accent: "not messages."
+  - pre: "Every fetch starts\n"
+    accent: "with an index lookup."
+  - pre: "Read the source.\n"
+    accent: "Then reproduce it."

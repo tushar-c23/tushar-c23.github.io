@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Locale | default "en" }}" data-theme="dark" data-ground="{{ .Site.Params.ground | default "brown" }}">
+<head>
+{{ partial "head.html" . }}
+{{- /* site additions: nuno has no head hook */}}
+<link rel="stylesheet" href="{{ "css/custom.css" | relURL }}">
+{{ partial "extra-head.html" . }}
+{{ if hugo.IsProduction }}{{ template "_internal/google_analytics.html" . }}{{ end }}
+</head>
+<body>
+<a class="sr-only" href="#main">{{ i18n "skipToContent" }}</a>
+<div class="wrap {{ block "wrapclass" . }}{{ end }}">
+  {{ partial "nav.html" . }}
+  {{ block "main" . }}{{ end }}
+  {{ partial "footer.html" . }}
+</div>
+{{ partial "search.html" . }}
+{{ partial "scripts.html" . }}
+</body>
+</html>
