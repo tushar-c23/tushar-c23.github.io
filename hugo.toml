@@ -35,10 +35,10 @@ disableRSS = false
   brand        = "tushar@syfe:~$"
   description  = "SDE at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
   tagline      = "SDE @ Syfe — I build low-latency, robust financial trading systems that move money across continents."
-  masthead     = 'Low-latency<span class="accent">,</span><br>trading systems<br>and notes.'
   ground       = "brown"
   defaultTheme = "auto"
-  homeHeader   = "masthead"
+  homeHeader   = "profile"
+  profileBio   = "SDE @ Syfe. I build low-latency, robust financial trading and payment systems that move money across continents, and write about the internals underneath them."
   homeStyle    = "grid"
   postsOnHome  = 6
   mainSections = ["posts"]
