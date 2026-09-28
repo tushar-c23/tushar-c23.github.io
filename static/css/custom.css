@@ -33,3 +33,6 @@
   .prose { max-width: 780px; }
   .code pre { font-size: 13px; }
 }
+
+/* Portrait only on the home profile header, not on About. */
+.about__portrait { display: none; }
