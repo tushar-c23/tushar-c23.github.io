@@ -45,6 +45,7 @@ disableRSS = false
   DateFormat   = "Jan 2, 2006"
   readingProgress = true
   ogImage      = "img/og.png"
+  portrait     = "images/portrait.png"   # GitHub avatar
 
   [params.author]
     name = "Tushar Choudhary"
@@ -58,6 +59,9 @@ disableRSS = false
   [[params.socialIcons]]
     name = "email"
     url  = "mailto:tusharc.cse@gmail.com"
+  [[params.socialIcons]]
+    name = "codeforces"
+    url  = "https://codeforces.com/profile/tushar-c23"
 
 [menu]
   [[menu.main]]

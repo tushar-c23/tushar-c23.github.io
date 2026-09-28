@@ -25,3 +25,11 @@
 .analogy p:last-child {
   margin-bottom: 0.4rem;
 }
+
+/* Wider reading column on desktop so code lines (kafka-configs, xxd, Python)
+   fit without scrolling: prose 680 -> 780px, aside 320 -> 280px, code 14 -> 13px. */
+@media (min-width: 1101px) {
+  .post__body { grid-template-columns: minmax(0, 1fr) 280px; }
+  .prose { max-width: 780px; }
+  .code pre { font-size: 13px; }
+}
