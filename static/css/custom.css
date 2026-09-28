@@ -1,10 +1,11 @@
-/* Analogy callout — highlights the key explanatory analogies in a post */
+/* Analogy callout — highlights the key explanatory analogies in a post.
+   Uses nuno's palette vars so it follows the dark/light toggle and ground. */
 .analogy {
   margin: 1.75rem 0;
   padding: 1rem 1.25rem 0.6rem;
-  border-left: 4px solid #67a2c9;
-  background: rgba(103, 162, 201, 0.10);
-  border-radius: 4px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  border-radius: 6px;
 }
 
 .analogy-label {
@@ -14,7 +15,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #67a2c9;
+  color: var(--accent);
 }
 
 .analogy-label::before {
@@ -24,3 +25,14 @@
 .analogy p:last-child {
   margin-bottom: 0.4rem;
 }
+
+/* Wider reading column on desktop so code lines (kafka-configs, xxd, Python)
+   fit without scrolling: prose 680 -> 780px, aside 320 -> 280px, code 14 -> 13px. */
+@media (min-width: 1101px) {
+  .post__body { grid-template-columns: minmax(0, 1fr) 280px; }
+  .prose { max-width: 780px; }
+  .code pre { font-size: 13px; }
+}
+
+/* Portrait only on the home profile header, not on About. */
+.about__portrait { display: none; }

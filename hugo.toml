@@ -1,7 +1,7 @@
 baseURL = "https://tushar-c23.github.io/"
 title = "Tushar Choudhary"
 locale = "en-us"
-theme = "hello-friend-ng"
+theme = "nuno"
 
 enableRobotsTXT = true
 enableEmoji = true
@@ -23,83 +23,74 @@ disableRSS = false
   [markup.goldmark.renderer]
     unsafe = true          # allow raw HTML (CV page) and inline HTML in posts
   [markup.highlight]
-    style = "monokai"
-    noClasses = true
+    noClasses = false      # class-based, so nuno's palettes drive colours
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]   # JSON is nuno's search index
 
 [params]
-  dateform        = "Jan 2, 2006"
-  dateformShort   = "Jan 2"
-  dateformNum     = "2006-01-02"
-  dateformNumTime = "2006-01-02 15:04"
-
-  # SEO / document head
-  description = "SDE at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
-  keywords = "Tushar Choudhary, SDE, software development engineer, Syfe, low-latency systems, financial trading systems, fintech, brokerage, payments, distributed systems, high-throughput, cross-border payments, Kotlin, Java, GSoC"
-  images = ["img/og.png"]   # social preview card; per-post override with `images:` in front matter
-  themeColor = "#1b1c1d"
-
-  # Homepage subtitle (also used as the home page meta description)
-  homeSubtitle = "SDE @ Syfe — I build low-latency, robust financial trading systems that move money across continents."
-
-  enableThemeToggle = true        # auto-respects prefers-color-scheme, adds a toggle
-  enableSharingButtons = false
-  enableReadingTime = true
-  enableGlobalLanguageMenu = false
-  disableReadOtherPosts = false
-
-  customCSS = ["/css/custom.css"]
-  customJS  = []
+  brand        = "tushar@syfe:~$"
+  description  = "SDE at Syfe building low-latency, robust financial trading and payment systems that move money across continents. Backend engineering, fintech, brokerage, distributed systems — plus occasional blogs, including Google Summer of Code '24."
+  tagline      = "SDE @ Syfe — I build low-latency, robust financial trading systems that move money across continents."
+  ground       = "brown"
+  defaultTheme = "auto"
+  homeHeader   = "profile"
+  profileBio   = "SDE @ Syfe. I build low-latency, robust financial trading and payment systems that move money across continents, and write about the internals underneath them."
+  homeStyle    = "grid"
+  postsOnHome  = 6
+  mainSections = ["posts"]
+  DateFormat   = "Jan 2, 2006"
+  readingProgress = true
+  ogImage      = "img/og.png"
+  portrait     = "images/portrait.png"   # GitHub avatar
 
   [params.author]
     name = "Tushar Choudhary"
 
-  [params.logo]
-    logoMark     = ">"
-    logoText     = "tushar@syfe:~$"
-    logoHomeLink = "/"
-
-  [params.footer]
-    trademark = 2026
-    rss = true
-    copyright = true
-    author = true
-    topText = []
-    bottomText = ["Powered by <a href=\"https://gohugo.io\">Hugo</a> & <a href=\"https://github.com/rhazdon/hugo-theme-hello-friend-ng\">hello-friend-ng</a>"]
-
-  [params.favicon.color]
-    mask = "#1b1c1d"
-    msapplication = "#1b1c1d"
-    theme = "#1b1c1d"
-
-  [[params.social]]
+  [[params.socialIcons]]
     name = "github"
     url  = "https://github.com/tushar-c23"
-
-  [[params.social]]
+  [[params.socialIcons]]
     name = "linkedin"
     url  = "https://www.linkedin.com/in/tushar-c23/"
-
-  [[params.social]]
+  [[params.socialIcons]]
     name = "email"
     url  = "mailto:tusharc.cse@gmail.com"
-
-  [[params.social]]
-    name = "twitter"
-    url  = "https://twitter.com/tushar_c_"
+  [[params.socialIcons]]
+    name = "codeforces"
+    url  = "https://codeforces.com/profile/tushar-c23"
 
 [menu]
   [[menu.main]]
-    identifier = "about"
-    name       = "About"
-    url        = "about/"
-    weight     = 1
-
-  [[menu.main]]
     identifier = "posts"
     name       = "Posts"
-    url        = "posts/"
-    weight     = 2
+    url        = "/posts/"
+    weight     = 10
+  [[menu.main]]
+    identifier = "archives"
+    name       = "Archive"
+    url        = "/archives/"
+    weight     = 20
+  [[menu.main]]
+    identifier = "about"
+    name       = "About"
+    url        = "/about/"
+    weight     = 30
 
 [caches]
   [caches.images]
     dir = ':cacheDir/images'
+# nuno resolves og:image through assets/; expose static/img there too
+[module]
+  [[module.mounts]]
+    source = "assets"
+    target = "assets"
+  [[module.mounts]]
+    source = "static/img"
+    target = "assets/img"
+  [[module.mounts]]
+    source = "static"
+    target = "static"
